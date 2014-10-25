@@ -1,0 +1,22 @@
+{
+  "name": "part1",
+  "version": "1.0.0",
+  "description": "Updating data via websockets",
+  "main": ".src/index.js",
+  "scripts": {
+    "start": "node ./src/server.js",
+    "pretest": "jshint ./src",
+    "test": "echo \"tests passed\""
+  },
+  "keywords": [
+    "websockets"
+  ],
+  "author": "haydonclore",
+  "license": "ISC",
+  "devDependencies": {
+    "jshint": "^2.5.6"
+  },
+  "dependencies": {
+    "socket.io": "^1.1.0"
+  }
+}

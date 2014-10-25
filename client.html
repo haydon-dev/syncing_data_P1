@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- import the websocket client library. You can code websockets from scratch
+         but we will just import a library. In this case we are using socket.io which is 
+         one of the most popular and feature rich websocket libraries.
+         
+         You can point the src for the script to any host online, but
+         by default the socket.io nodejs library will host the client library
+         online at your node.js address under /socket.io/socket.io.js 
+         You can disable that on the server if desired
+    -->
+	<script src="http://localhost:31415/socket.io/socket.io.js"></script>
+	<script>		
+		function updatePercent(num){
+			var percent = document.querySelector('h3');
+			//var current = percent.innerHTML.substring(0, 
+				//percent.innerHTML.indexOf('%'));
+			//num += parseInt(current);
+			percent.innerHTML = num + '%';
+			return num;
+		}
+	
+		function init() {
+            var socket = io.connect('http://localhost:31415');
+			
+			socket.emit('helloServer');
+			
+			socket.on('helloClient', function(data){
+				console.log('connected to server');
+				if(data)
+					updatePercent(data.percent);
+				
+				console.log('beginning virus upload...');
+				setInterval(uploadMoreVirus, 1500);//Math.random() * 5 * 1000);
+			});
+			
+			socket.on('update', function(data){
+				updatePercent(data.percent);
+			});
+			
+			socket.on('complete', function(data){
+				console.log('virus upload completed, beginning another...');
+				updatePercent(data.percent);
+			});
+			
+			function uploadMoreVirus(){
+				//console.log('uploading more virus to the server...');
+				
+				var add = Math.round(Math.random() * 100)/100;
+				//console.log(add);
+				socket.emit('virus', {percent: add});
+			}
+		}
+		
+		
+	
+        //when the page is loaded, call init
+		window.onload = init;
+	</script>
+	<style>
+		body {
+			display: block;
+			background-color: #FFAAAA;
+		}
+	</style>
+</head>
+<body>
+	<p>Virus upload progress:</p>
+	<h3>0%</h3>
+</body>
+</html>
