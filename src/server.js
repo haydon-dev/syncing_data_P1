@@ -1,5 +1,5 @@
 var socketio = require('socket.io');
-var io = socketio.listen(31415);
+var io = socketio.listen(process.env.PORT || 31415);
 
 var percentS = 0;
 
